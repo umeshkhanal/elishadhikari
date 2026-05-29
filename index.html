@@ -972,6 +972,142 @@
       });
     </script>
     <script>
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          // Create overlay
+          const overlay = document.createElement("div");
+          overlay.style.cssText = `
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(4px);
+        `;
+
+          // Popup box
+          const popup = document.createElement("div");
+          popup.style.cssText = `
+            width: 90%;
+            max-width: 380px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            font-family: Arial, sans-serif;
+            animation: popupShow 0.3s ease;
+        `;
+
+          popup.innerHTML = `
+            <div style="display: flex; justify-content: center; margin-bottom: 15px;">
+              <img 
+                  src="images/myself.jpg" 
+                  alt="Elisha"
+                  style="
+                      width: 95px;
+                      height: 95px;
+                      object-fit: cover;
+                      border-radius: 50%;
+                      border: 4px solid #f1f1f1;
+                      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+                  "
+              >
+            </div>
+            <h2 style="
+                margin: 0;
+                font-size: 24px;
+                color: #111;
+            ">
+                Download CV
+            </h2>
+
+            <p style="
+                margin: 12px 0 25px;
+                color: #666;
+                font-size: 15px;
+                line-height: 1.5;
+            ">
+                Would you like to download Elisha's CV?
+            </p>
+
+            <div style="
+                display: flex;
+                gap: 12px;
+                justify-content: center;
+            ">
+                <button id="downloadCVBtn" style="
+                    border: none;
+                    background: #000;
+                    color: white;
+                    padding: 12px 22px;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    font-weight: bold;
+                    transition: 0.3s;
+                ">
+                    Download
+                </button>
+
+                <button id="closePopupBtn" style="
+                    border: 1px solid #ccc;
+                    background: white;
+                    color: #333;
+                    padding: 12px 22px;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    font-weight: bold;
+                    transition: 0.3s;
+                ">
+                    No Need
+                </button>
+            </div>
+        `;
+
+          overlay.appendChild(popup);
+          document.body.appendChild(overlay);
+
+          // Download button
+          document.getElementById("downloadCVBtn").onclick = () => {
+            const link = document.createElement("a");
+            link.href = "cv/MissMadam.pdf";
+            link.download = "ElishaOfficialCV.pdf";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            overlay.remove();
+          };
+
+          // Close button
+          document.getElementById("closePopupBtn").onclick = () => {
+            overlay.remove();
+          };
+
+          // Animation
+          const style = document.createElement("style");
+          style.innerHTML = `
+            @keyframes popupShow {
+                from {
+                    transform: scale(0.8);
+                    opacity: 0;
+                }
+                to {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+        `;
+          document.head.appendChild(style);
+        }, 700);
+      });
+
+
+      
       const menuBtn = document.getElementById("menu-btn");
       const mobileMenu = document.getElementById("mobile-menu");
 
